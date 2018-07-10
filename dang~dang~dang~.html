@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        canvas {
+            border: 1px solid red;
+        }
+    </style>
+
+
+</head>
+
+<body>
+        <audio  id='Among' src="./山野さと子 - 哆啦a梦.mp3"  loop="loop" >
+        </audio>
+
+    <canvas width="500" height="500">
+
+    </canvas>
+    <script>
+        var cas = document.querySelector('canvas');
+        var ctx = cas.getContext('2d');
+
+        // 创建一个promise对象，实现画圆的功能，为了多次then，需要封装成函数  传入参数x,y,r,d
+        // 第一个圆：250,250,200,420
+        // 第二个圆：250,170,18,480
+        // 第三个圆：210, 130,40,480
+        function getPromise(x, y, r, d, s ,j) {
+            Among.play();
+            // 调用函数的时候会返回一个设定好的promise对象
+            return new Promise(function (resolve, reject) {
+                
+                var timeId = setInterval(function () {
+                    if (j >= d) {
+                        clearInterval(timeId);
+                        resolve();
+                        return;
+                    }
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, Math.PI / 180 * j, Math.PI / 180 * (j + 5));
+                    ctx.stroke();
+                    j++;
+                }, s);
+            });
+        }
+        
+        function getlinecro(x, h,s ,d) {
+            // var h=h;
+            // 调用函数的时候会返回一个设定好的promise对象
+            return new Promise(function (resolve, reject) {
+                
+                var timeId = setInterval(function () {
+                    if (h >= d) {
+                        clearInterval(timeId);
+                        resolve();
+                        return;
+                    }
+                    ctx.beginPath();
+                    ctx.moveTo(x,h)
+                    ctx.lineTo(x,h+1)
+                    ctx.stroke();
+                    ctx.strokeStyle="rgb(0,0,0)"
+                    h++;
+                    
+                }, s);
+            });
+        }
+
+        function gethuxu(x, h,s ,d ,n ,z) {
+            // var h=h;
+            // 调用函数的时候会返回一个设定好的promise对象
+            return new Promise(function (resolve, reject) {
+                
+                var timeId = setInterval(function () {
+                    if (x == d ) {
+                        clearInterval(timeId);
+                        resolve();
+                        return;
+                    }
+                    ctx.beginPath();
+                    ctx.moveTo(x,h)
+                    ctx.lineTo(x+n,h+z)
+                    ctx.stroke();
+                    ctx.strokeStyle="rgb(0,0,0)"
+                    h=h+z;
+                    x=x+n;
+                    
+                }, s);
+            });
+        }
+        
+        getPromise(250, 250, 200, 480 ,30 ,120).then(() => {
+            console.log('第一个圆画完');
+            return getPromise(250, 170, 18, 480 ,10 ,120);
+        }).then(() => {
+            console.log('第二个圆画完');
+            return getPromise(210, 130, 40, 480 ,10 ,120);
+        }).then(() => {
+            console.log('第三个圆画完，结束了');
+            return getPromise(290, 130, 40, 480 ,10 ,120)
+        }).then(() => {
+            return getPromise(230, 140, 15, 480 ,10 ,120)
+        }).then(() => {
+            return getPromise(270, 140, 15, 480 ,10 ,120)
+        }).then(() => {
+            return getPromise(250, 280, 170, 237 ,30 ,-62)
+        }).then(() => {
+            return getlinecro(250,189, 15 ,380 )
+        }).then(() => {
+            return getPromise(250,240, 140 ,147 , 15 ,30 )
+        }).then(() => {
+            return gethuxu(220, 240,20 ,120 ,-1 ,-0.5);
+        }).then(() => {
+            return gethuxu(220, 260,20 ,90 ,-1 ,0);
+        }).then(() => {
+            return gethuxu(220, 280,20 ,120 ,-1 ,0.5);
+        }).then(() => {
+           return gethuxu(280, 240,20 ,380 ,1 ,-0.5);
+        }).then(() => {
+           return gethuxu(280, 260,20 ,410 ,1 ,0);
+        }).then(() => {
+           return gethuxu(280, 280,20 ,380 ,1 ,0.5);
+        })
+        
+        
+        
+        
+
+        
+    </script>
+
+
+
+
+</body>
+
+</html>
